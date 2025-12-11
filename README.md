@@ -1,7 +1,8 @@
-# ChessGPT
+# ChessNexus
 
-ChessGPT is an AI-powered chatbot web application that answers chess-related questions using Retrieval-Augmented Generation (RAG) and the Gemini API. It leverages Next.js (App Router), React, LangChain, DataStax Astra DB, and modern authentication (Clerk-ready). The app features a beautiful chess-themed UI and provides expert-level chess insights, strategies, and resources.
 
+
+ChessNexus is an AI-powered chess assistant built using Retrieval-Augmented Generation (RAG) and the Gemini API. It provides expert-level answers to chess questions by combining LLM reasoning with a vector database of curated chess knowledge. The application leverages Next.js (App Router), React, LangChain, DataStax Astra DB, and optional Clerk authentication. It features a polished chess-themed UI and delivers contextual, markdown-formatted insights.
 ---
 
 ## Features
@@ -29,8 +30,8 @@ ChessGPT is an AI-powered chatbot web application that answers chess-related que
 ### 1. Clone the Repository
 
 ```sh
-git clone https://github.com/yourusername/chessgpt.git
-cd chessgpt
+git clone https://github.com/yourusername/chessnexus.git
+cd chessnexus
 ```
 
 ### 2. Install Dependencies
