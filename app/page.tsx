@@ -81,14 +81,14 @@ const Home = () => {
   return (
     <main>
       <div className="header">
-        <Image src="/assets/logochess1.png" width={250} height={250} alt="ChessGPT Logo" priority />
+        <Image src="/assets/logo-chess.png" width={250} height={250} alt="ChessGPT Logo" priority />
       </div>
 
       <section className={noMessages ? "" : "populated"}>
         {noMessages ? (
           <>
             <p className="starter-text">
-              ♔ Welcome to ChessGPT ♔<br />
+              ♔ Welcome to ChessNexus ♔<br />
               Ask any chess-related question and get expert answers powered by AI
             </p>
             <PromptSuggestionRow onPromptClick={handlePromptClick} />
