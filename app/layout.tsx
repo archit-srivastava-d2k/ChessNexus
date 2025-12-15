@@ -1,7 +1,7 @@
 import './global.css';
 
 export const metadata = {
-  title: 'ChessGPT',
+  title: 'ChessNexus',
   description: 'This is a go-to Chess RAG Chatbot',
     icons: {
     icon:"/assets/logochess.png", 
