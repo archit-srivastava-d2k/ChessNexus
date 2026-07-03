@@ -16,27 +16,37 @@ const db = client.db(ASTRA_DB_API_ENDPOINT!, { namespace: ASTRA_DB_NAMESPACE! })
 
 export async function POST(req: Request) {
   try {
+    const totalStart = performance.now();
     const { messages } = await req.json();
     const latestMessage = messages[messages.length - 1]?.content;
 
     let docContext = '';
 
+    const embedStart = performance.now();
     // gemini-embedding-001 works on v1beta — no API version workaround needed
     const embeddingResponse = await ai.models.embedContent({
       model: 'gemini-embedding-001',
       contents: latestMessage,
     });
+    const embeddingTime = performance.now() - embedStart;
 
     const embeddingValues = embeddingResponse.embeddings?.[0]?.values ?? [];
 
+    let vectorTime = 0;
     try {
       const collection = await db.collection(ASTRA_DB_COLLECTION!);
+      
+      const vectorStart = performance.now();
+      
       const cursor = collection.find({}, {
         sort: { $vector: embeddingValues },
         limit: 10,
       });
 
       const documents = await cursor.toArray();
+      
+      vectorTime = performance.now() - vectorStart;
+      
       const docsMap = documents?.map((doc) => doc.text);
       docContext = JSON.stringify(docsMap);
     } catch (err) {
@@ -80,12 +90,25 @@ ${conversationHistory}
 - Only respond to the latest message, but use previous context for better understanding.
 `;
 
+    const llmStart = performance.now();
     const result = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
     });
+    const llmTime = performance.now() - llmStart;
 
     const text = result.text ?? '';
+
+    const totalTime = performance.now() - totalStart;
+
+    const metrics = {
+      embeddingMs: Number(embeddingTime.toFixed(2)),
+      vectorSearchMs: Number(vectorTime.toFixed(2)),
+      llmMs: Number(llmTime.toFixed(2)),
+      totalMs: Number(totalTime.toFixed(2)),
+    };
+    
+    console.table(metrics);
 
     return new Response(text, {
       status: 200,
